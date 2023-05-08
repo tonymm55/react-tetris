@@ -63,10 +63,11 @@ const Tetris = () => {
         movePlayer(1);
       } else if (keyCode === 40) {
         dropPlayer();
-      }
-    }
+      } else if (keyCode === 38) { //up arrow key
+        playerRotate(stage, 1); //need stage for collision detection and 1 is clockwise rotation
+      } 
+    }  
   }
-
 
   return (
     <StyledTetrisWrapper role="button" tabIndex="0" onKeyDown={e => move(e)}>
