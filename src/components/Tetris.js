@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 
 import { createStage, checkCollision } from "../gameHelpers";
-
-// Styled Components
 import { StyledTetrisWrapper, StyledTetris } from './styles/StyledTetris';
 
 // Custom Hooks
@@ -11,7 +9,6 @@ import { usePlayer } from "../hooks/usePlayer";
 import { useStage } from "../hooks/useStage";
 import { useGameStatus } from "../hooks/useGameStatus";
  
-
 //Components
 import Stage from "./Stage";
 import Display from "./Display";
@@ -25,29 +22,39 @@ const Tetris = () => {
   const [stage, setStage, rowsCleared] = useStage(player, resetPlayer);
   const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(rowsCleared);
   
+  
+  
   console.log('re-render');
+  console.log(player.tetromino); 
 
   const movePlayer = dir => {
+    console.log(`Moving player ${dir} space`);
     if (!checkCollision(player, stage, { x: dir, y: 0 })) {
       updatePlayerPos({ x: dir, y: 0 });
     }
-  }
+  };
 
-  
+  const keyUp = ({ keyCode }) => {
+    if (!gameOver) {
+      // Activate the inteval again when user releases down arrow key
+      if (keyCode === 40) {               //down key
+        setDropTime(1000 / (level + 1));
+      }
+    }
+  };
   
   const startGame = () => {
     // Reset everything
     setStage(createStage());
     setDropTime(1000);
     resetPlayer();
-    setGameOver(false);
     setScore(0);
-    setRows(0);
     setLevel(0);
-  }
+    setRows(0);
+    setGameOver(false);
+  };
 
   const drop = () => {
-    console.log(dropTime)
     // Increase level when player has cleared 10 rows
     if (rows > (level + 1) * 10) {
       setLevel(prev => prev + 1);
@@ -58,7 +65,7 @@ const Tetris = () => {
     if (!checkCollision(player, stage, { x: 0, y: 1 })) {
       updatePlayerPos({ x: 0, y: 1, collided: false });
     } else {
-      //Game Over
+      //Game Over!
       if (player.pos.y < 1) {
         console.log("GAME OVER!!!");
         setGameOver(true);
@@ -66,23 +73,21 @@ const Tetris = () => {
       }
       updatePlayerPos({ x: 0, y: 0, collided: true });
     }
-  }
-
-  const keyUp = ({ keyCode }) => {
-    if (!gameOver) {
-      if (keyCode === 40) {               //down key
-        console.log("interval on");
-        setDropTime(1000 / (level + 1) + 200);
-      }
-    }
   };
 
   const dropPlayer = () => {
-    console.log("interval off")
+    // We don't need to run the interval when we use the arrow down to
+    // move the tetromino downwards. so deactive for now.
     setDropTime(null);
     drop();
-  }
+  };
 
+  //THis one starts the game. Custom hook by Dan Abramov
+  
+  useInterval(() => {
+      drop();
+  }, dropTime);
+  
   const move = ({ keyCode }) => {
     if (!gameOver) {
       if (keyCode === 37) {
@@ -95,16 +100,8 @@ const Tetris = () => {
         playerRotate(stage, 1); //need stage for collision detection and 1 is clockwise rotation
       } 
     }  
-  }
+  };
 
-  
-  
-  useInterval(() => {
-    if (!gameOver) {
-      drop();
-    }
-  }, dropTime);
-  
   return (
     <StyledTetrisWrapper 
       role="button" 
