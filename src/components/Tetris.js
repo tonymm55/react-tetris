@@ -74,7 +74,8 @@ const Tetris = () => {
 
         //Send score to the server
         sendScore(score);
-
+        
+        //code for posting score to parent window (UI)
         window.parent.postMessage(
           JSON.stringify({ tetrisScore: score }),
           "http://127.0.0.1:5173"
