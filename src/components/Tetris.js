@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 import { createStage, checkCollision } from "../gameHelpers";
 import { StyledTetrisWrapper, StyledTetris } from './styles/StyledTetris';
@@ -55,8 +56,8 @@ const Tetris = () => {
   };
 
   const drop = () => {
-    // Increase level when player has cleared 10 rows
-    if (rows > (level + 1) * 10) {
+    // Increase level when player has cleared 5 rows
+    if (rows > (level + 1) * 5) {
       setLevel(prev => prev + 1);
       // Also increase speed
       setDropTime(1000 / (level + 1) + 200);
@@ -70,6 +71,14 @@ const Tetris = () => {
         console.log("GAME OVER!!!");
         setGameOver(true);
         setDropTime(null);
+
+        //Send score to the server
+        sendScore(score);
+
+        window.parent.postMessage(
+          JSON.stringify({ score }),
+          "http://127.0.0.1:5173"
+        );
       }
       updatePlayerPos({ x: 0, y: 0, collided: true });
     }
@@ -82,8 +91,7 @@ const Tetris = () => {
     drop();
   };
 
-  //THis one starts the game. Custom hook by Dan Abramov
-  
+  //This one starts the game. Custom hook by Dan Abramov
   useInterval(() => {
       drop();
   }, dropTime);
@@ -100,6 +108,16 @@ const Tetris = () => {
         playerRotate(stage, 1); //need stage for collision detection and 1 is clockwise rotation
       } 
     }  
+  };
+
+  const sendScore = async (score) => {
+    try {
+      const response = await axios.post('https://arcade-backend.onrender.com/scoreboard/tetris/add', 
+      { name: 'Player', score });
+      console.log('Score sent successfully!', response.data);
+    } catch (error) {
+      console.log('Error sending score', error);
+    }
   };
 
   return (
