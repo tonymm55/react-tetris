@@ -101,7 +101,7 @@ const Tetris = () => {
       } else if (keyCode === 38) { //up arrow key
         playerRotate(stage, 1); //need stage for collision detection and 1 is clockwise rotation
       } 
-    }  
+    }
   };
 
   const sendScore = async (score) => {
@@ -133,7 +133,7 @@ const Tetris = () => {
               <Display text={`Level: ${level}`} />
             </div>
           )}
-          <StartButton callback={startGame} disabled={!gameOver}/>
+          <StartButton callback={startGame} />
         </aside>
       </StyledTetris>
     </StyledTetrisWrapper>
