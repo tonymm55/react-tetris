@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 
 import { createStage, checkCollision } from "../gameHelpers";
 import { StyledTetrisWrapper, StyledTetris } from './styles/StyledTetris';
@@ -66,13 +66,13 @@ const Tetris = () => {
         setDropTime(null);
 
         //Send score to the server
-        sendScore(score);
+        // sendScore(score);
         
-        //code for posting score to parent window (UI)
-        // window.parent.postMessage(
-        //   JSON.stringify({ tetrisScore: score }),
-        //   "http://127.0.0.1:5173"
-        // );
+        // code for posting score to parent window (UI)
+        window.parent.postMessage(
+          JSON.stringify({ tetrisScore: score }),
+          "http://127.0.0.1:5173"
+        );
       }
       updatePlayerPos({ x: 0, y: 0, collided: true });
     }
@@ -104,15 +104,15 @@ const Tetris = () => {
     }
   };
 
-  const sendScore = async (score) => {
-    try {
-      const response = await axios.post('https://arcade-backend.onrender.com/scoreboard/tetris/add', 
-      { name: 'Player', score });
-      console.log('Score sent successfully!', response.data);
-    } catch (error) {
-      console.log('Error sending score', error);
-    }
-  };
+  // const sendScore = async (score) => {
+  //   try {
+  //     const response = await axios.post('https://arcade-backend.onrender.com/scoreboard/tetris/add', 
+  //     { name: 'Player', score });
+  //     console.log('Score sent successfully!', response.data);
+  //   } catch (error) {
+  //     console.log('Error sending score', error);
+  //   }
+  // };
 
   return (
     <StyledTetrisWrapper 
