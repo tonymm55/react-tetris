@@ -2,10 +2,10 @@ import React from 'react';
 import { StyledStartButton } from './styles/StyledStartButton';
 
 //"implicit return"
-const StartButton = ({ callback, disabled }) => (
-    <StyledStartButton onClick={callback} disabled ={disabled} >
-        Start Game
+const StartButton = ({ callback }) => (
+    <StyledStartButton onClick={callback} >
+        Reset Game
     </StyledStartButton>
-);
+); 
 
 export default StartButton;
