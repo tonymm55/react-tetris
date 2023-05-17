@@ -111,15 +111,15 @@ const Tetris = () => {
     }  
   };
 
-  const sendScore = async (score) => {
-    try {
-      const response = await axios.post('https://arcade-backend.onrender.com/scoreboard/tetris/add', 
-      { name: 'Player', score });
-      console.log('Score sent successfully!', response.data);
-    } catch (error) {
-      console.log('Error sending score', error);
-    }
-  };
+  // const sendScore = async (score) => {
+  //   try {
+  //     const response = await axios.post('https://arcade-backend.onrender.com/scoreboard/tetris/add', 
+  //     { name: 'Player', score });
+  //     console.log('Score sent successfully!', response.data);
+  //   } catch (error) {
+  //     console.log('Error sending score', error);
+  //   }
+  // };
 
   return (
     <StyledTetrisWrapper 
