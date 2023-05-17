@@ -62,17 +62,17 @@ const Tetris = () => {
     } else {
       //Game Over!
       if (player.pos.y < 1) {
-        setGameOver(true);
-        setDropTime(null);
-
-        //Send score to the server
-        // sendScore(score);
-        
         // code for posting score to parent window (UI)
         window.parent.postMessage(
           JSON.stringify({ tetrisScore: score }),
           "http://127.0.0.1:5173"
         );
+
+        setGameOver(true);
+        setDropTime(null);
+
+        //Send score to the server
+        // sendScore(score);
       }
       updatePlayerPos({ x: 0, y: 0, collided: true });
     }
