@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-// Import axios from "axios";
-
 import { createStage, checkCollision } from "../gameHelpers";
 import { StyledTetrisWrapper, StyledTetris } from './styles/StyledTetris';
 
@@ -15,20 +13,24 @@ import Stage from "./Stage";
 import Display from "./Display";
 import StartButton from "./StartButton";
 
+//React Hooks
 const Tetris = () => {
   const [dropTime, setDropTime] = useState(null);
   const [gameOver, setGameOver] = useState(false);
 
+//React Custom Hooks
   const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
   const [stage, setStage, rowsCleared] = useStage(player, resetPlayer);
   const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(rowsCleared);
 
+  //Move Player Function
   const movePlayer = dir => {
     if (!checkCollision(player, stage, { x: dir, y: 0 })) {
       updatePlayerPos({ x: dir, y: 0 });
     }
   };
 
+  //Key Up Function
   const keyUp = ({ keyCode }) => {
     if (!gameOver) {
       // Activate the inteval again when user releases down arrow key
@@ -38,6 +40,7 @@ const Tetris = () => {
     }
   };
   
+  //Start Game Function
   const startGame = () => {
     // Reset everything
     setStage(createStage());
@@ -49,6 +52,7 @@ const Tetris = () => {
     setGameOver(false);
   };
 
+  //Drop Function
   const drop = () => {
     // Increase level when player has cleared 5 rows
     if (rows > (level + 1) * 5) {
@@ -67,10 +71,9 @@ const Tetris = () => {
           JSON.stringify({ tetrisScore: score }),
           "http://127.0.0.1:5173"
         );
-
         setGameOver(true);
         setDropTime(null);
-
+        console.log("Game Over!!");
         //Send score to the server
         // sendScore(score);
       }
@@ -78,25 +81,25 @@ const Tetris = () => {
     }
   };
 
+  //Drop Player Function
   const dropPlayer = () => {
-    // We don't need to run the interval when we use the arrow down to
-    // move the tetromino downwards. so deactive for now.
     setDropTime(null);
     drop();
   };
 
-  //This one starts the game. Custom hook by Dan Abramov
+  //UseInterval Custom Hook
   useInterval(() => {
       drop();
   }, dropTime);
   
+  //Move Player Function
   const move = ({ keyCode }) => {
     if (!gameOver) {
-      if (keyCode === 37) {
+      if (keyCode === 37) { //left arrow key
         movePlayer(-1);
-      } else if (keyCode === 39) {
+      } else if (keyCode === 39) { //right arrow key
         movePlayer(1);
-      } else if (keyCode === 40) {
+      } else if (keyCode === 40) { //down arrow key
         dropPlayer();
       } else if (keyCode === 38) { //up arrow key
         playerRotate(stage, 1); //need stage for collision detection and 1 is clockwise rotation
@@ -114,6 +117,7 @@ const Tetris = () => {
   //   }
   // };
 
+  //User Interface & Styling
   return (
     <StyledTetrisWrapper 
       role="button" 

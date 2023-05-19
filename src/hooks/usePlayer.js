@@ -33,9 +33,7 @@ export const usePlayer = () => {
                 return;
             }
         }
-          
         setPlayer(clonedPlayer);
-
     };
     
     const updatePlayerPos = ({ x, y, collided }) => {
