@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { createStage, checkCollision } from "../gameHelpers";
 import { StyledTetrisWrapper, StyledTetris } from './styles/StyledTetris';
 
-// Custom Hooks
+//Custom Hooks
 import { useInterval } from "../hooks/useInterval";
 import { usePlayer } from "../hooks/usePlayer";
 import { useStage } from "../hooks/useStage";
 import { useGameStatus } from "../hooks/useGameStatus";
  
-// Components
+//Components
 import Stage from "./Stage";
 import Display from "./Display";
 import StartButton from "./StartButton";
@@ -39,7 +39,7 @@ const Tetris = () => {
       }
     }
   };
-  
+
   //Start Game Function
   const startGame = () => {
     // Reset everything
