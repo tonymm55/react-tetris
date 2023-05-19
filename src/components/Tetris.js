@@ -64,18 +64,15 @@ const Tetris = () => {
     if (!checkCollision(player, stage, { x: 0, y: 1 })) {
       updatePlayerPos({ x: 0, y: 1, collided: false });
     } else {
-      //Game Over!
+      //Game Over
       if (player.pos.y < 1) {
-        // code for posting score to parent window (UI)
+        // code for posting score to UI
         window.parent.postMessage(
           JSON.stringify({ tetrisScore: score }),
           "http://127.0.0.1:5173"
         );
         setGameOver(true);
         setDropTime(null);
-        console.log("Game Over!!");
-        //Send score to the server
-        // sendScore(score);
       }
       updatePlayerPos({ x: 0, y: 0, collided: true });
     }
@@ -106,16 +103,6 @@ const Tetris = () => {
       } 
     }
   };
-
-  // const sendScore = async (score) => {
-  //   try {
-  //     const response = await axios.post('https://arcade-backend.onrender.com/scoreboard/tetris/add', 
-  //     { name: 'Player', score });
-  //     console.log('Score sent successfully!', response.data);
-  //   } catch (error) {
-  //     console.log('Error sending score', error);
-  //   }
-  // };
 
   //User Interface & Styling
   return (
