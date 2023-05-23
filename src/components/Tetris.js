@@ -69,7 +69,7 @@ const Tetris = () => {
         // code for posting score to UI
         window.parent.postMessage(
           JSON.stringify({ tetrisScore: score }),
-          "https://arcade-game-room.netlify.app/"
+          "https://arcade-game-room.netlify.app"
         );
         setGameOver(true);
         setDropTime(null);
