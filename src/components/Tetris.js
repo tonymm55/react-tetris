@@ -66,28 +66,9 @@ const Tetris = () => {
     } else {
       //Game Over
       if (player.pos.y < 1) {
-<<<<<<< HEAD
         console.log("GAME OVER!!!");
         setGameOver(true);
         setDropTime(null);
-
-        //Send score to the server
-        // sendScore(score);
-        
-        //code for posting score to parent window (UI)
-        // window.parent.postMessage(
-        //   JSON.stringify({ tetrisScore: score }),
-        //   "http://127.0.0.1:5173"
-        // );
-=======
-        // code for posting score to UI
-        window.parent.postMessage(
-          JSON.stringify({ tetrisScore: score }),
-          "https://arcade-game-room.netlify.app"
-        );
-        setGameOver(true);
-        setDropTime(null);
->>>>>>> deployed
       }
       updatePlayerPos({ x: 0, y: 0, collided: true });
     }
@@ -116,23 +97,8 @@ const Tetris = () => {
       } else if (keyCode === 38) { //up arrow key
         playerRotate(stage, 1); //need stage for collision detection and 1 is clockwise rotation
       } 
-<<<<<<< HEAD
-    }  
-  };
-
-  // const sendScore = async (score) => {
-  //   try {
-  //     const response = await axios.post('https://arcade-backend.onrender.com/scoreboard/tetris/add', 
-  //     { name: 'Player', score });
-  //     console.log('Score sent successfully!', response.data);
-  //   } catch (error) {
-  //     console.log('Error sending score', error);
-  //   }
-  // };
-=======
     }
   };
->>>>>>> deployed
 
   //User Interface & Styling
   return (
