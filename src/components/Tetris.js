@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios";
-
 import { createStage, checkCollision } from "../gameHelpers";
 import { StyledTetrisWrapper, StyledTetris } from './styles/StyledTetris';
 
-// Custom Hooks
+//Custom Hooks
 import { useInterval } from "../hooks/useInterval";
 import { usePlayer } from "../hooks/usePlayer";
 import { useStage } from "../hooks/useStage";
@@ -15,35 +13,34 @@ import Stage from "./Stage";
 import Display from "./Display";
 import StartButton from "./StartButton";
 
+//React Hooks
 const Tetris = () => {
   const [dropTime, setDropTime] = useState(null);
   const [gameOver, setGameOver] = useState(false);
 
+//React Custom Hooks
   const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
   const [stage, setStage, rowsCleared] = useStage(player, resetPlayer);
   const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(rowsCleared);
-  
-  
-  
-  console.log('re-render');
-  console.log(player.tetromino); 
 
+  //Move Player Function
   const movePlayer = dir => {
-    console.log(`Moving player ${dir} space`);
     if (!checkCollision(player, stage, { x: dir, y: 0 })) {
       updatePlayerPos({ x: dir, y: 0 });
     }
   };
 
+  //Key Up Function
   const keyUp = ({ keyCode }) => {
     if (!gameOver) {
-      // Activate the inteval again when user releases down arrow key
+      // Activate the interval again when user releases down arrow key
       if (keyCode === 40) {               //down key
         setDropTime(1000 / (level + 1));
       }
     }
   };
-  
+
+  //Start Game Function
   const startGame = () => {
     // Reset everything
     setStage(createStage());
@@ -55,6 +52,7 @@ const Tetris = () => {
     setGameOver(false);
   };
 
+  //Drop Function
   const drop = () => {
     // Increase level when player has cleared 5 rows
     if (rows > (level + 1) * 5) {
@@ -66,61 +64,44 @@ const Tetris = () => {
     if (!checkCollision(player, stage, { x: 0, y: 1 })) {
       updatePlayerPos({ x: 0, y: 1, collided: false });
     } else {
-      //Game Over!
+      //Game Over
       if (player.pos.y < 1) {
+        
         console.log("GAME OVER!!!");
         setGameOver(true);
         setDropTime(null);
-
-        //Send score to the server
-        // sendScore(score);
-        
-        //code for posting score to parent window (UI)
-        // window.parent.postMessage(
-        //   JSON.stringify({ tetrisScore: score }),
-        //   "http://127.0.0.1:5173"
-        // );
       }
       updatePlayerPos({ x: 0, y: 0, collided: true });
     }
   };
 
+  //Drop Player Function
   const dropPlayer = () => {
-    // We don't need to run the interval when we use the arrow down to
-    // move the tetromino downwards. so deactive for now.
     setDropTime(null);
     drop();
   };
 
-  //This one starts the game. Custom hook by Dan Abramov
+  //UseInterval Custom Hook
   useInterval(() => {
       drop();
   }, dropTime);
   
+  //Move Player Function
   const move = ({ keyCode }) => {
     if (!gameOver) {
-      if (keyCode === 37) {
+      if (keyCode === 37) { //left arrow key
         movePlayer(-1);
-      } else if (keyCode === 39) {
+      } else if (keyCode === 39) { //right arrow key
         movePlayer(1);
-      } else if (keyCode === 40) {
+      } else if (keyCode === 40) { //down arrow key
         dropPlayer();
       } else if (keyCode === 38) { //up arrow key
         playerRotate(stage, 1); //need stage for collision detection and 1 is clockwise rotation
       } 
-    }  
+    }
   };
 
-  // const sendScore = async (score) => {
-  //   try {
-  //     const response = await axios.post('https://arcade-backend.onrender.com/scoreboard/tetris/add', 
-  //     { name: 'Player', score });
-  //     console.log('Score sent successfully!', response.data);
-  //   } catch (error) {
-  //     console.log('Error sending score', error);
-  //   }
-  // };
-
+  //User Interface & Styling
   return (
     <StyledTetrisWrapper 
       role="button" 
@@ -132,7 +113,10 @@ const Tetris = () => {
         <Stage stage={stage} />
         <aside>
           {gameOver ? (
-            <Display gameOver={gameOver} text="Game Over" />
+            <div>
+              <Display gameOver={gameOver} text="Game Over" />
+              <Display text={`Score: ${score}`} />
+            </div>
           ) : (
             <div>
               <Display text={`Score: ${score}`} />
