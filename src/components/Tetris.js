@@ -66,15 +66,15 @@ const Tetris = () => {
     } else {
       //Game Over
       if (player.pos.y < 1) {
-<<<<<<<<< Temporary merge branch 1
-        // code for posting score to UI
-        window.parent.postMessage(
-          JSON.stringify({ tetrisScore: score }),
-          "https://arcade-game-room.netlify.app"
-        );
-        setGameOver(true);
-        setDropTime(null);
-=========
+// <<<<<<<<< Temporary merge branch 1
+//         // code for posting score to UI
+//         window.parent.postMessage(
+//           JSON.stringify({ tetrisScore: score }),
+//           "https://arcade-game-room.netlify.app"
+//         );
+//         setGameOver(true);
+//         setDropTime(null);
+// =========
         console.log("GAME OVER!!!");
         setGameOver(true);
         setDropTime(null);
