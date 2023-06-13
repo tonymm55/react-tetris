@@ -33,13 +33,10 @@ export const usePlayer = () => {
                 return;
             }
         }
-          
         setPlayer(clonedPlayer);
-
     };
     
     const updatePlayerPos = ({ x, y, collided }) => {
-        console.log(`Updating player position to x: ${x}, y: ${y}`);
         setPlayer(prev => ({
             ...prev,
             pos: { x: (prev.pos.x += x), y: (prev.pos.y += y) },
