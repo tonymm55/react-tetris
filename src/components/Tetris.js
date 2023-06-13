@@ -66,11 +66,8 @@ const Tetris = () => {
     } else {
       //Game Over
       if (player.pos.y < 1) {
-        // code for posting score to UI
-        window.parent.postMessage(
-          JSON.stringify({ tetrisScore: score }),
-          "https://arcade-game-room.netlify.app"
-        );
+        
+        console.log("GAME OVER!!!");
         setGameOver(true);
         setDropTime(null);
       }
