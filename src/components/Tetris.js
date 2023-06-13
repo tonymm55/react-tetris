@@ -33,7 +33,7 @@ const Tetris = () => {
   //Key Up Function
   const keyUp = ({ keyCode }) => {
     if (!gameOver) {
-      // Activate the inteval again when user releases down arrow key
+      // Activate the interval again when user releases down arrow key
       if (keyCode === 40) {               //down key
         setDropTime(1000 / (level + 1));
       }
